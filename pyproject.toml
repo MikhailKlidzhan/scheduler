@@ -19,4 +19,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
 responses = "^0.25.7"
+black = "^25.1.0"
 
+[tool.black]
+line-length = 88
+target-version = ['py310']
