@@ -52,6 +52,14 @@ class Scheduler:
         '''
         return datetime.strptime(f'{date_str} {time_str}', '%Y-%m-%d %H:%M')
         
+    
+    def _validate_date(self, date: str) -> None:
+        '''
+        Raise ValueError if a date is not in the schedule.
+        '''
+        if not any(d['date'] == date for d in self.days):
+            raise ValueError(f'Date {date} not found in the schedule')
+
 
     def get_busy_slots(self, date: str) -> list[tuple[str, str]]:
         '''
@@ -163,5 +171,6 @@ class Scheduler:
                     return (date, start, (slot_start + duration).strftime('%H:%M'))
             
         raise ValueError('No available slot found for the specified duration')
+
 
 
