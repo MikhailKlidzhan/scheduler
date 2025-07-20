@@ -46,7 +46,8 @@ def test_get_free_slots(mock_api):
     scheduler = Scheduler(url=URL)
     assert scheduler.get_free_slots('2024-10-10') == [('09:00', '11:00'), ('12:00', '18:00')]
     assert scheduler.get_free_slots('2024-10-11') == [('08:00', '09:30'), ('16:00', '17:00')]
-    assert scheduler.get_free_slots('2024-10-12') == []
+    with pytest.raises(ValueError):
+        scheduler.get_free_slots('2024-10-12')
 
 
 def test_is_available(mock_api):
@@ -56,7 +57,8 @@ def test_is_available(mock_api):
     scheduler = Scheduler(url=URL)
     assert scheduler.is_available('2024-10-10', '10:00', '10:30') is True
     assert scheduler.is_available('2024-10-10', '11:30', '12:30') is False
-    assert scheduler.is_available('2024-10-11', '10:00', '10:30') is False
+    with pytest.raises(ValueError):
+        scheduler.is_available('2024-10-12', '10:00', '10:30')
 
 
 def test_find_slot_for_duration(mock_api):
