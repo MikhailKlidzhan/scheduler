@@ -89,6 +89,8 @@ class Scheduler:
         Returns:
             List of tuples with start and end times of free slots.
         '''
+        self._validate_date(date)
+
         day = next((d for d in self.days if d['date'] == date), None)
         if not day:
             return []
@@ -129,6 +131,8 @@ class Scheduler:
         Returns:
             True if the interval is available, otherwise False.
         '''
+        self._validate_date(date)
+
         interval_start = self._parse_datetime(date, start)
         interval_end = self._parse_datetime(date, end)
         busy_slots = [
@@ -160,6 +164,9 @@ class Scheduler:
         Raises:
             ValueError: If no slot is found.
         '''
+        if not self.days:
+            raise ValueError('No dates in the schedule')
+
         duration = timedelta(minutes=duration_minutes)
         for day in sorted(self.days, key=lambda x: x['date']):
             date = day['date']
